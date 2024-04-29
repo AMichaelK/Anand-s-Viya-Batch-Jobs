@@ -1,0 +1,44 @@
+/******************************************************************************
+ * Copyright (c) 2013 by SAS Institute Inc, Cary NC 27511  USA
+ * This program is part of the Mixed Analytic Workload repository of
+ *   test programs used to evaluate SAS concurrent workload.   
+ *
+ * PASS NAME:  comp_test1a.sas
+ * DESCRIPTION:
+ *   This computational test is a numercially intensive test 
+ *
+ *   We are doing stepwise linear regression and a stepwise logistic
+ *   regression.  Performance can be increased if you can set the
+ *   the MEMSIZE parameter high enough to cache the data for the
+ *   the logistic regression.
+ *
+ *   This test is the same code as COMP_TEST2 and COMP_TEST3, but
+ *   it only uses 25% of the total data.
+ *
+ * SETUP INSTRUCTIONS:
+ *   This test requires you to import data stored in the transport file 
+ *   boardrm.tra into a SAS data set using the CIMPORT procedure.
+ *
+ *   Modify the Data Setup Section below to specify the path containing the
+ *   boardrm data set.
+ *
+ * OUTPUT:  none
+ *
+ * SYSTEM REQUIREMENTS:  This test works with default settings.
+ *
+ * TEST CHARACTERIZATION:  CPU Intensive  
+ *
+ * SAS PRODUCTS INVOLVED:  base SAs, SAS/STAT
+ * SAS PROCEDURES INVOLVED:  LOGISTIC, REG 
+ *
+ * DATA SOURCE:  boardrm.tra SAS transport file
+ * DATA CHARACTERIZATION:  297 Variables
+ *
+ * COMMENTS:
+ * DISTRIBUTION STATUS:  External
+ * CONTRIBUTED BY:  Margaret Crevar
+ *
+ * HISTORY:
+ *   Date       Description                       Who
+ *   19Jul13    Add to Mixed Analytic Workload    Tony Brown
+ ******************************************************************************/

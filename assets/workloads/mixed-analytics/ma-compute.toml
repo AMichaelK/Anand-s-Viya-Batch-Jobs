@@ -1,0 +1,285 @@
+# Profile consisting of 9 jobs from MA workloads. This profile
+# is geared towards Computational & Memory intensive tasks and stresses
+# IO subsystem minimally. 
+#
+#
+# First stage submits the 9 jobs only once
+# Second stage then submits the 9 jobs 4 times each (36 Jobs)
+#
+# Jobs in this profile:
+# - surveylogistic: COMP/MEM
+# - comp_test1: COMP
+# - comp_test2: COMP
+# - comp_test5: COMP 
+# - genmod: COMP
+# - glimmix: COMP
+# - hpmixed: COMP/MEM
+# - nlmixed: COMP/MEM
+# - codegen_issue: MEM
+#
+# Input Datasets Required (~1.5GB)
+# - boardrm.tra (95MB)
+# - genmod1.tra (61MB)
+# - smptest.tra (51MB)
+# - in.sas7bdat (1.3GB)
+#
+# Instructuion:
+# - Stage the data in a shared location and modify autoexec.sas file
+#       `%let suiteloc=/path/to/the/data;`
+#
+# - Directory structure for shared data should be
+# === /path/to/the/data/
+#                       input/ <- this is where the data should be placed
+#                       output/ <- empty writeable directory
+#
+# - Ensure that the location of autoexec.sas file matches job description (below)
+
+[general]
+stages = ["first", "second"]
+viyacli_path = "/Users/abisen/bin/sas-viya"
+
+
+[profile]
+[profile.default]
+queuename = "xlarge"
+sasoption = ["-encoding us-ascii", "-MEMSIZE 4G", "-BUFSIZE 64K", "-SORTSIZE 2G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+jobfile = ["assets/workloads/mixed-analytics/autoexec.sas"]
+
+[profile.highmem]
+queuename = "xlarge"
+sasoption = ["-encoding us-ascii", "-MEMSIZE 6G", "-BUFSIZE 64K", "-SORTSIZE 3G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+jobfile = ["assets/workloads/mixed-analytics/autoexec.sas"]
+
+
+
+# comp_test1
+# Input Data: none
+# Note: Long running job (default: disabled)
+[job.101_surveylogistic]
+sourcecode = "assets/workloads/mixed-analytics/code/surveylogistic.sas"
+description = "Long running job (Input Data: none)"
+profile = "default"
+stage = "first"
+disable = false # <- set to "true" to enable this
+
+# comp_test1
+# Input Data: boardrm.tra (95MB)
+[job.102_comp_test1]
+sourcecode =  "assets/workloads/mixed-analytics/code/comp_test1.sas"
+description = "Input Data: boardrm.tra (95MB)"
+profile = "default"
+stage = "first"
+disable = false
+
+# comp_test2
+# Input Data: boardrm.tra (95MB)
+[job.103_comp_test2]
+sourcecode =  "assets/workloads/mixed-analytics/code/comp_test2.sas"
+profile = "default"
+stage = "first"
+disable = false
+
+# comp_test5
+# Input Data: none
+[job.104_comp_test5]
+sourcecode =  "assets/workloads/mixed-analytics/code/comp_test5.sas"
+profile = "default"
+stage = "first"
+disable = false
+
+# genmod
+# Input Data: genmod1.tra (61MB)
+[job.105_genmod]
+sourcecode =  "assets/workloads/mixed-analytics/code/genmod.sas"
+profile = "default"
+stage = "first"
+disable = false
+
+
+# glimmix
+# Input Data: none
+[job.106_glimmix]
+sourcecode =  "assets/workloads/mixed-analytics/code/glimmix.sas"
+profile = "default"
+stage = "first"
+disable = false
+
+# hpmixed
+# Input Data: none
+[job.107_hpmixed]
+sourcecode =  "assets/workloads/mixed-analytics/code/hpmixed.sas"
+profile = "default"
+stage = "first"
+disable = false
+
+# nlmixed
+# Input Data: smptest.tra (51MB)
+[job.108_nlmixed]
+sourcecode =  "assets/workloads/mixed-analytics/code/nlmixed.sas"
+profile = "default"
+stage = "first"
+disable = false
+
+
+# codegen_issue
+# Input Data: in.sas7bdat (1.3GB)
+[job.109_codegen_issue]
+sourcecode =  "assets/workloads/mixed-analytics/code/codegen_issue.sas"
+profile = "default"
+stage = "first"
+disable = false
+
+
+
+
+
+
+
+
+# comp_test1
+# Input Data: none
+# Note: Long running job (default: disabled)
+[job.201_surveylogistic]
+sourcecode = "assets/workloads/mixed-analytics/code/surveylogistic.sas"
+description = "Long running job (Input Data: none)"
+profile = "default"
+stage = "second"
+disable = false # <- set to "true" to enable this
+
+# comp_test1
+# Input Data: boardrm.tra (95MB)
+[job.202_comp_test1]
+sourcecode =  "assets/workloads/mixed-analytics/code/comp_test1.sas"
+description = "Input Data: boardrm.tra (95MB)"
+profile = "default"
+stage = "second"
+disable = false
+
+# comp_test2
+# Input Data: boardrm.tra (95MB)
+[job.203_comp_test2]
+sourcecode =  "assets/workloads/mixed-analytics/code/comp_test2.sas"
+profile = "default"
+stage = "second"
+disable = false
+
+# comp_test5
+# Input Data: none
+[job.204_comp_test5]
+sourcecode =  "assets/workloads/mixed-analytics/code/comp_test5.sas"
+profile = "default"
+stage = "second"
+disable = false
+
+# genmod
+# Input Data: genmod1.tra (61MB)
+[job.205_genmod]
+sourcecode =  "assets/workloads/mixed-analytics/code/genmod.sas"
+profile = "default"
+stage = "second"
+disable = false
+
+
+# glimmix
+# Input Data: none
+[job.206_glimmix]
+sourcecode =  "assets/workloads/mixed-analytics/code/glimmix.sas"
+profile = "default"
+stage = "second"
+disable = false
+
+# hpmixed
+# Input Data: none
+[job.207_hpmixed]
+sourcecode =  "assets/workloads/mixed-analytics/code/hpmixed.sas"
+profile = "default"
+stage = "second"
+disable = false
+
+# nlmixed
+# Input Data: smptest.tra (51MB)
+[job.208_nlmixed]
+sourcecode =  "assets/workloads/mixed-analytics/code/nlmixed.sas"
+profile = "default"
+stage = "second"
+disable = false
+
+
+# codegen_issue
+# Input Data: in.sas7bdat (1.3GB)
+[job.209_codegen_issue]
+sourcecode =  "assets/workloads/mixed-analytics/code/codegen_issue.sas"
+profile = "default"
+stage = "second"
+disable = false
+
+
+# comp_test1
+# Input Data: boardrm.tra (95MB)
+[job.212_comp_test1]
+sourcecode =  "assets/workloads/mixed-analytics/code/comp_test1.sas"
+description = "Input Data: boardrm.tra (95MB)"
+profile = "default"
+stage = "second"
+disable = false
+
+# comp_test2
+# Input Data: boardrm.tra (95MB)
+[job.213_comp_test2]
+sourcecode =  "assets/workloads/mixed-analytics/code/comp_test2.sas"
+profile = "default"
+stage = "second"
+disable = false
+
+# comp_test5
+# Input Data: none
+[job.214_comp_test5]
+sourcecode =  "assets/workloads/mixed-analytics/code/comp_test5.sas"
+profile = "default"
+stage = "second"
+disable = false
+
+# genmod
+# Input Data: genmod1.tra (61MB)
+[job.215_genmod]
+sourcecode =  "assets/workloads/mixed-analytics/code/genmod.sas"
+profile = "default"
+stage = "second"
+disable = false
+
+
+# glimmix
+# Input Data: none
+[job.216_glimmix]
+sourcecode =  "assets/workloads/mixed-analytics/code/glimmix.sas"
+profile = "default"
+stage = "second"
+disable = false
+
+# hpmixed
+# Input Data: none
+[job.217_hpmixed]
+sourcecode =  "assets/workloads/mixed-analytics/code/hpmixed.sas"
+profile = "default"
+stage = "second"
+disable = false
+
+# nlmixed
+# Input Data: smptest.tra (51MB)
+[job.218_nlmixed]
+sourcecode =  "assets/workloads/mixed-analytics/code/nlmixed.sas"
+profile = "default"
+stage = "second"
+disable = false
+
+
+# codegen_issue
+# Input Data: in.sas7bdat (1.3GB)
+[job.219_codegen_issue]
+sourcecode =  "assets/workloads/mixed-analytics/code/codegen_issue.sas"
+profile = "default"
+stage = "second"
+disable = false
+
+
+

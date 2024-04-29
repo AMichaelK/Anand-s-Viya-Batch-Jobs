@@ -1,0 +1,82 @@
+/* create sort data for gsort.sas */
+
+%let mysysparm=%sysfunc(getoption(SYSPARM));
+/*%let suiteloc=%sysget(ASUITE); */
+%put &suiteloc;
+
+libname e BASE "&suiteloc/input/";
+
+OPTIONS FULLSTIMER SOURCE SOURCE2 MSGLEVEL=I MPRINT NOTES;
+PROC OPTIONS GROUP=MEMORY;
+PROC OPTIONS GROUP=PERFORMANCE;
+RUN;
+LIBNAME _ALL_ LIST;
+PROC OPTIONS OPTION=WORK;
+PROC OPTIONS OPTION=UTILLOC;
+RUN;
+DATA _NULL_;
+ %PUT This job started on &sysdate at &systime;
+RUN;
+OPTIONS SASTRACE=",,,d" SASTRACELOC=saslog NOSTSUFFIX;
+
+data e.messy_&sysparm;
+   do i = 1 to 100000000;
+        bmi=22.5+i;
+                xx=ranuni(1055);
+                ht= i / 2.25;
+                i2 = i/xx;
+                i3 = i * 10;
+                i4 = i + 10;
+                z = "This is a big monster text field";
+                zz = "Yet another big monster text field but this time much bigger";
+                zzz = z;
+                zzzz = zz;
+                zzzzz = zzz;
+                tom = zz;
+                tom2 = zz;
+                tom3 = i;
+                tom4 = i;
+                tom5 = i*32;
+                tom6 = i * i;
+                tom7 = zzz;
+                tom8 = zzz;
+                tom9 = zzz;
+                tom10= zzz;
+                tom12=zzz;
+                tom13 = z;
+                tom14 = z;
+                tom15 = z;
+                tom16 = z;
+                tom17 = z;
+                tom18 = z;
+                tom19 = i;
+                tom20 = i*99;
+                tom21 = 4.5555 * i;
+                tom22 = i / 5.6;
+                tom23 = z;
+                tom24 =z;
+                t1 = z;
+                t2 = z;
+                t3 = z;
+                t4 = z;
+                t5 = z;
+                t6 = z;
+                t7 = z;
+                t8 = z;
+                t9 = z;
+                t10 = z;
+                t12 = z;
+                t20 = z;
+                t22=z;
+                t21=z;
+                t13=z;
+                t14=z;
+                t15=z;
+                t16=z;
+                t17=z;
+                t18=z;
+                t19=z;
+
+                output;
+    end;
+run;

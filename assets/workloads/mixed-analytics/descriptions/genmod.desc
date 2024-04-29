@@ -1,0 +1,33 @@
+/******************************************************************************
+ * Copyright (c) 2013 by SAS Institute Inc, Cary NC 27511  USA
+ *
+ * This program is part of the Mixed Analytic Workload repository of
+ *   test programs used to evaluate SAS concurrent workload.   
+ *
+ * NAME:  GENMOD.sas
+ * DESCRIPTION: New GENMOD test from Leigh Ihnen.  PROC GENMOD.
+ *
+ * SETUP INSTRUCTIONS:
+ *   Data for this test is static adn imported from a transport file.
+ *
+ * OUTPUT:  none
+ *
+ * SYSTEM REQUIREMENTS:  NA
+ *
+ * TEST CHARACTERIZATION:  CPU Intensive
+ *
+ * SAS PRODUCTS INVOLVED:  Base SAS
+ * SAS PROCEDURES INVOLVED: Data Step, GENMOD
+ *
+ * DATA SOURCE:  static -  genmod.tra
+ * DATA CHARACTERIZATION:  n/a
+ *
+ * COMMENTS:
+ * DISTRIBUTION STATUS:  Internal
+ * CONTRIBUTED BY:  Leigh Ihnen
+ *
+ * HISTORY:
+ *   Date       Description                       Who
+ *  19Jul13   Converted to Std. Header for      
+ *            Mixed Analytic Workload             Tony Brown
+ ******************************************************************************/

@@ -1,0 +1,33 @@
+/******************************************************************************
+ *  Copyright (c) 2013 by SAS Institute Inc, Cary NC 27511  USA
+ *
+ * This program is part of the Mixed Analytic Workload repository of
+ *   test programs used to evaluate SAS concurrent workload.   
+ *
+ * NAME:  RANK1.sas
+ *
+ * DESCRIPTION: This test generates a large dataset and uses it as a training
+ *              dataset to perform an intensive RANK proceedure.
+ *
+ * SETUP INSTRUCTIONS:
+ *     Data for this test is provided by generated data.
+ *
+ * OUTPUT:  PROC SUMMARY Output
+ *
+ * TEST CHARACTERIZATION:  CPU
+ *
+ * SAS PRODUCTS INVOLVED:  Base SAS
+ * SAS PROCEDURES INVOLVED: Proc Rank, Proc Means
+ *
+ * DATA SOURCE: Gendata1
+ * DATA CHARACTERIZATION:  n/a
+ *
+ * COMMENTS:
+ * DISTRIBUTION STATUS:  Internal
+ * CONTRIBUTED BY:        Leigh Ihnen
+ *
+ * HISTORY:
+ *   Date       Description                       Who
+ *  19JUL13     Added to Mixed Analytic Workload  Tony Brown
+ *             
+ ******************************************************************************/

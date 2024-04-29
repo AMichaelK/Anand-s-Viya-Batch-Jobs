@@ -1,0 +1,288 @@
+# mixed-analytics Workload Notes
+# - "census" and "io2" both consumes precs_[1-4] & hrecs_[1-4] input datasets so these two must be executed in 
+#   different stages. If both of the jobs are executed in the same stage then -sysparm parameter
+#   should use different idx so that they hit different versions of sas7bdat files. 
+
+[general]
+stages = ["setup", "main"]
+viyaclipath = "/Users/abisen/bin/sas-viya"
+
+[profile]
+[profile.default]
+queuename = "default"
+sasoption = ["-encoding us-ascii", "-MEMSIZE 6G", "-BUFSIZE 128K", "-SORTSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+# replace 'autoexec.sas' file with the one specific to the environment
+jobfile = ["workloads/mixed-analytics/autoexec.sas"]
+
+# Example profile 'highmem' not used by jobs below
+[profile.highmem]
+queuename = "xlarge"
+sasoption = ["-encoding us-ascii", "-MEMSIZE 4G", "-BUFSIZE 64K", "-SORTSIZE 2G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+jobfile = ["workloads/mixed-analytics/autoexec.sas"]
+
+
+
+[job]
+
+# Stage: setup
+
+# requires input data (38GB) placed in input/cdata directory
+# two executions in stage "setup" such that the 38GB data is 
+# generated for consumption by different jobs in the main stage
+[job.01a_census1]
+sourcecode = "assets/workloads/mixed-analytics/code/census1.sas"
+description = "Census File Read & Global Parms Maniuplation"
+tags = {jobtype = "io"}
+profile = "default"
+stage = "setup"
+sasoption = ["-sysparm 2"]
+disable = false
+
+[job.01b_census1]
+sourcecode = "assets/workloads/mixed-analytics/code/census1.sas"
+description = "Census File Read & Global Parms Maniuplation"
+tags = {jobtype = "io"}
+profile = "default"
+stage = "setup"
+sasoption = ["-sysparm 3"]
+disable = false
+
+# generate sortdata for gsort.sas (145GB)
+[job.01_w_sortdata]
+sourcecode = "assets/workloads/mixed-analytics/code/w_sortdata.sas"
+description = "Generate Sort Data for gsort.sas"
+tags = {jobtype = "io"}
+profile = "default"
+stage = "setup"
+sasoption = ["-sysparm 1"]
+disable = false
+
+
+
+# Stage: main
+
+# requires input data (38GB) placed in input/cdata directory
+[job.02_census1]
+sourcecode = "assets/workloads/mixed-analytics/code/census1.sas"
+description = "Census File Read & Global Parms Maniuplation"
+tags = {jobtype = "io"}
+profile = "default"
+stage = "main"
+sasoption = ["-sysparm 1"]
+disable = false
+
+# Input Data: input/pumsaxca_X.txt (45 GB)
+# Output Data: output/hrecs_ca_X.sas7bdat & output/precs_ca_2.sas7bdat (45GB)
+#              output dataset is deleted at the end of the job
+# 
+# IO Intensive job, stresses the shared file system by reading 45GB worth of 
+# data executing DATA large data step transformation and creating ~45GB worth
+# of SAS7BDAT
+[job.02_io1_ca]
+sourcecode = "assets/workloads/mixed-analytics/code/io1_ca.sas"
+description = "Flat File Census Reads and Manipulation.  Very Large Data Step Test."
+tags = {jobtype = "io"}
+profile = "default"
+stage = "main"
+sasoption = ["-sysparm 2"]
+disable = false
+
+# work on self generated data
+[job.02_surveylogistic]
+sourcecode = "assets/workloads/mixed-analytics/code/surveylogistic.sas"
+description = "STAT Performance Test for PROC SURVEYLOGISTIC"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "main"
+disable = false
+
+# requires in.sas7bdat (1.3GB) input file placed in input/ folder
+[job.02_codegen_issue]
+sourcecode = "assets/workloads/mixed-analytics/code/codegen_issue.sas"
+description = "Nested DATA Step Variable Generation"
+tags = {jobtype = "io"}
+profile = "default"
+stage = "main"
+disable = false
+
+
+# requires boardrm.tra (97MB) input file placed in input/ folder
+[job.02_comp_test1]
+sourcecode = "assets/workloads/mixed-analytics/code/comp_test1.sas"
+description = "Numercially intensive test, doing stepwise linear regression and a stepwise logistic regression"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "main"
+disable = false
+
+# requires boardrm.tra (97MB) input file placed in input/ folder
+[job.02_comp_test2]
+sourcecode = "assets/workloads/mixed-analytics/code/comp_test2.sas"
+description = "Numercially intensive test, doing stepwise linear regression and a stepwise logistic regression"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "main"
+disable = false
+
+
+# work on self generated data
+[job.02_comp_test5]
+sourcecode = "assets/workloads/mixed-analytics/code/comp_test5.sas"
+description = "Numercially intensive test using GLM (General Linear Model)"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "main"
+disable = false
+
+# work on self generated data
+[job.02_customer1]
+sourcecode = "assets/workloads/mixed-analytics/code/customer1.sas"
+description = "Data Step manipulation with REG and MEANS"
+tags = {jobtype = "io, memory"}
+profile = "default"
+stage = "main"
+disable = false
+
+# uses focus.dat input file which is uploaded as part of the job
+[job.02_focus2]
+sourcecode = "assets/workloads/mixed-analytics/code/focus2.sas"
+description = "random effects mixed model with repeated measures"
+tags = {jobtype = "memory, cpu"}
+profile = "default"
+stage = "main"
+disable = false
+
+# uses data generated by census1.sas
+#   `sysparam` should match whatever is used for census1 (for the first run)
+#   it's used to name the file generated by census1 which is used by this
+#   test
+[job.02_io2]
+sourcecode = "assets/workloads/mixed-analytics/code/io2.sas"
+description = "I/O Intensive SQL View Creation"
+tags = {jobtype = "io"}
+profile = "default"
+stage = "main"
+sasoption = ["-sysparm 2"]
+disable = false
+
+# work on self generated data
+# With default values the code first writes ~75GB (1.8GB, 15GB, 58GB) of 
+# assuming nobs = 15000000
+# data (skinny, medium, wide tables)
+# then reads the data back from disk. 
+# IO Intensive test stresses (SASWORK)
+[job.02_ranrw]
+sourcecode = "assets/workloads/mixed-analytics/code/ranrw.sas"
+description = "Data set performance test: random read (skinny,medium, wide) on Data."
+tags = {jobtype = "io"}
+profile = "default"
+stage = "main"
+sasoption = ["-encoding us-ascii", "-set nobs 15000000"]
+disable = false
+
+# work on self generated data
+[job.02_rank1]
+sourcecode = "assets/workloads/mixed-analytics/code/rank1.sas"
+description = "generates a large dataset and uses it as a training dataset to perform an intensive RANK proceedure"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "main"
+disable = false
+
+# work on self generated data
+[job.02_pension2]
+sourcecode = "assets/workloads/mixed-analytics/code/pension2.sas"
+description = "Compares pre- and post-erisa pensions for retirees, no worker holdings (MEANS, UNIVARIATE, FREQ, TABULATE)"
+tags = {jobtype = "memory"}
+profile = "default"
+stage = "main"
+disable = false
+
+# work on self generated data
+[job.02_hpmixed]
+sourcecode = "assets/workloads/mixed-analytics/code/hpmixed.sas"
+description = "STAT Performance test for PROC HPMIXED"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "main"
+disable = false
+
+# work on self generated data
+[job.02_glimmix]
+sourcecode = "assets/workloads/mixed-analytics/code/glimmix.sas"
+description = "STAT Performance Litmus Test for PROC GLIMMIX"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "main"
+disable = false
+
+# input file is genmod.tra
+[job.02_genmod]
+sourcecode = "assets/workloads/mixed-analytics/code/genmod.sas"
+description = "Uses PROC GENMOD"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "main"
+sasoption = ["-sysparm 1"]
+disable = false
+
+# uses smptest.tra (51MB) input file
+[job.02_nlmixed]
+sourcecode = "assets/workloads/mixed-analytics/code/nlmixed.sas"
+description = "STAT Procedure NLMIXED tested on small dataset for single threaded performance on an SMP Server"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "main"
+disable = false
+
+# If multiple instances are executed in parallel ensure the all have different sysparam numbers 
+# and there is one messy_${sysparm} for each instance for input
+# The input file is (145GB)
+# IO Flow (450GB+) for MESSY_1.sas7bdat: 55 Columns
+# - The code reads 145GB from shared file system
+# - Uses utilloc to store temporary data (145GB write)
+# - Writes the final output to the shared file system (145GB) 
+[job.02_gsort]
+sourcecode = "assets/workloads/mixed-analytics/code/gsort.sas"
+description = "Sort of a large messy file"
+tags = {jobtype = "io"}
+profile = "default"
+stage = "main"
+sasoption = ["-sysparm 1"]
+disable = false
+
+# works on ~11 files (1.6GB)
+[job.02_hist_clm]
+sourcecode = "assets/workloads/mixed-analytics/code/hist_clm.sas"
+description = "I/O Intensive, CPU Intensive Test on ASCII Files"
+tags = {jobtype = "io, cpu"}
+profile = "default"
+stage = "main"
+sasoption = ["-sysparm 1"]
+disable = true # This job has issues with data and errors out
+
+# works on self generated data
+[job.02_synthforest]
+sourcecode = "assets/workloads/mixed-analytics/code/synthforest.sas"
+description = "Compute intensive HPCLUS and HPFOREST"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "main"
+sasoption = ["-sysparm 1"]
+disable = false
+
+# # If there are concurrent processed then ensure that they 
+# # all have a different value for sysparam as it writes to a SAS Dataset
+# # at output/customer_50mil_&sysparm and there should be as many inputs as
+# # well at input/customer_50mil_&sysparm
+[job.02_dim_50mil]
+sourcecode = "assets/workloads/mixed-analytics/code/dim_50mil.sas"
+description = "Star Schema Customer Dimension Extract and Maniuplation"
+tags = {jobtype = "io, memory"}
+profile = "default"
+stage = "main"
+sasoption = ["-sysparm 1"]
+disable = false
+
+
+

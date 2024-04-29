@@ -1,0 +1,36 @@
+ /******************************************************************************
+ * Copyright (c) 2013 by SAS Institute Inc, Cary NC 27511  USA
+ * This program is part of the Mixed Analytic Workload repository of
+ *   test programs used to evaluate SAS concurrent workload.   
+ *
+ * PASS NAME: hist_clm.sas.sas
+ * DESCRIPTION:
+ *
+ * SETUP INSTRUCTIONS: This test requires several binary files containing EBCDIC and binary
+ *   data from a mainframe (MVS).  These files are compressed on the
+ *   original CD, so make sure you uncompress them before running this test.
+ *
+ *   Modify the Data Setup Section below to specify the path containing the
+ *   ASCII files.
+ *
+ * OUTPUT:  none
+ *
+ * SYSTEM REQUIREMENTS:  This test works with default settings.
+ *
+ * TEST CHARACTERIZATION:  I/O Intensive, CPU Intensive    
+ *
+ * SAS PRODUCTS INVOLVED:  BASE 
+ * SAS PROCEDURES INVOLVED: SUMMARY, SORT, DATA  
+  
+ *
+ * DATA SOURCE: several binary files
+ * DATA CHARACTERIZATION:   na
+ *
+ * COMMENTS:
+ * DISTRIBUTION STATUS:  External
+ * CONTRIBUTED BY: Leigh Ihnen   
+ *
+ * HISTORY:
+ *   Date       Description                       Who
+ *   19Jul13    Add to Mixed Analytic Workload    Tony Brown
+ ******************************************************************************/

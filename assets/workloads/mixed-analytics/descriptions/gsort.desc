@@ -1,0 +1,30 @@
+/******************************************************************************
+ * Copyright (c) 2013 by SAS Institute Inc, Cary NC 27511  USA
+ * This program is part of the Mixed Analytic Workload repository of
+ *   test programs used to evaluate SAS concurrent workload.   
+ *
+ * PASS NAME: GSORT.sas
+ * DESCRIPTION: Sort of a large messy file
+ *
+ * SETUP INSTRUCTIONS: None
+ *
+ * OUTPUT:  none
+ *
+ * SYSTEM REQUIREMENTS:  This test works with default settings.
+ *
+ * TEST CHARACTERIZATION:  I/O Intensive  
+ *
+ * SAS PRODUCTS INVOLVED: BASE		
+ * SAS PROCEDURES INVOLVED:   SORT
+ *
+ * DATA SOURCE:  /$asuite/messy_#.sas7bdat 
+ * DATA CHARACTERIZATION: SAS Dataset
+ *
+ * COMMENTS:
+ * DISTRIBUTION STATUS:  External
+ * CONTRIBUTED BY:   Tom Keefer
+ *
+ * HISTORY:
+ *   Date       Description                       Who
+ *   19Jul13    Add to Mixed Analytic Workload    Tony Brown
+ ******************************************************************************/

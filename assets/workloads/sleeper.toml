@@ -1,0 +1,428 @@
+[general]
+stages = ["first", "second", "third", "large"]
+#stages = ["first"]
+
+# Not Implemented - Yet
+# viyacli_path = "/home/abisen/bin/sas-viya"
+# viyacli_insecure = true
+# viyacli_profile 
+
+# Profiles are global settings applied to all the jobs
+# that references them
+[profile]
+[profile.default]
+queue = "default"
+description = "Default options to use with jobs using 'default' profile"
+sasoption = ["-MEMSIZE 1G", "-BUFSIZE 64K", "-SORTSIZE 256M"] 
+jobfile = []
+
+[profile.small]
+queue = "default"
+sasoption = ["-MEMSIZE 2G", "-BUFSIZE 128K", "-SORTSIZE 1G"] 
+
+[profile.xlarge]
+queue = "default"
+sasoption = ["-MEMSIZE 2G", "-BUFSIZE 128K", "-SORTSIZE 1G"] 
+
+[profile.x2large]
+
+
+# Jobs are the unit of work that are submitted to Workload Manager
+# - All jobs are submitted in groups defined by stages
+# - Stages are executed sequentially 
+# - All jobs in a stage can run in parallel assuming no resource constraints
+[job]
+[job.000_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "xlarge", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "first"
+profile = "xlarge"
+joboption = ["jobopt1"]
+
+[job.001_sleep]
+description = "Just sleep for a while :)"
+tags = {kind = "general", profile = "xlarge"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+stage = "first"
+profile = "x2large"
+
+[job.002_sleep]
+description = "Just sleep for a while :)"
+tags = {kind = "general"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+stage = "second"
+profile = "default"
+
+[job.003_sleep]
+description = "Just sleep for a while :)"
+tags = {kind = "general"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+stage = "second"
+profile = "default"
+disable = true
+
+
+
+[job.400_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.401_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.402_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.403_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "small"
+joboption = ["jobopt1"]
+
+[job.404_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "small"
+joboption = ["jobopt1"]
+
+[job.405_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.406_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.407_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "small"
+joboption = ["jobopt1"]
+
+[job.408_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "small"
+joboption = ["jobopt1"]
+
+[job.409_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.410_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "small"
+joboption = ["jobopt1"]
+
+[job.411_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.412_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.413_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.414_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.415_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.416_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.417_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.418_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.419_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.420_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.421_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.422_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.423_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.424_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.425_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.426_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.427_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.428_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.429_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.430_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.431_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.432_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.433_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.434_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+
+[job.435_sleep]
+description = "Just sleep for a while :)"
+tags = {queuename = "default", jobowner = "Anand Bisen"}
+sourcecode = "assets/workloads/sleeper/code/sleeper.sas"
+jobfile = ["assets/workloads/sleeper/autoexec.sas"]
+sasoption = ["-MEMSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+stage = "large"
+profile = "default"
+joboption = ["jobopt1"]
+

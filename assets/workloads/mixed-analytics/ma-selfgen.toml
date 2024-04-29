@@ -1,0 +1,438 @@
+# Profile consisting of jobs that does not require input data to be 
+# staged. These loads generate their own synthetic dataset for execution
+#
+# Jobs in this profile:
+#
+# Instructuion:
+
+
+[general]
+stages = ["single", "scaling"]
+#stages = ["single"]
+#stages = ["scaling"]
+
+viyacli_path = "/Users/abisen/bin/sas-viya"
+
+
+[profile]
+[profile.default]
+queue = "default"
+sasoption = ["-encoding us-ascii", "-MEMSIZE 7G", "-BUFSIZE 64K", "-SORTSIZE 5G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+jobfile = ["assets/workloads/mixed-analytics/autoexec.sas"]
+
+[profile.highmem]
+queue = "default"
+sasoption = ["-encoding us-ascii", "-MEMSIZE 7G", "-BUFSIZE 64K", "-SORTSIZE 5G", "-autoexec !BATCHJOBDIR/autoexec.sas"]
+jobfile = ["assets/workloads/mixed-analytics/autoexec.sas"]
+
+
+
+# Input Data: none
+# Note: Long running job (default: disabled)
+[job.101_surveylogistic]
+sourcecode = "assets/workloads/mixed-analytics/code/surveylogistic.sas"
+description = "Long running job (Input Data: none)"
+profile = "highmem"
+stage = "single"
+disable = true # <- set to "true" to enable this
+
+# Input Data: none
+[job.102_comp_test5]
+sourcecode =  "assets/workloads/mixed-analytics/code/comp_test5.sas"
+description = "Numercially intensive test using GLM (General Linear Model)"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "single"
+disable = false
+
+# Input Data: none
+[job.103_glimmix]
+sourcecode =  "assets/workloads/mixed-analytics/code/glimmix.sas"
+description = "STAT Performance Litmus Test for PROC GLIMMIX"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "single"
+disable = false
+
+# hpmixed
+# Input Data: none
+[job.104_hpmixed]
+sourcecode =  "assets/workloads/mixed-analytics/code/hpmixed.sas"
+description = "STAT Performance test for PROC HPMIXED"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "single"
+disable = false
+
+
+[job.105_ranrw]
+sourcecode = "assets/workloads/mixed-analytics/code/ranrw.sas"
+description = "Data set performance test: random read (skinny,medium, wide) on Data."
+tags = {jobtype = "io"}
+profile = "default"
+stage = "single"
+sasoption = ["-encoding us-ascii", "-set nobs 1000000"]
+disable = false
+
+[job.106_focus2]
+sourcecode = "assets/workloads/mixed-analytics/code/focus2.sas"
+description = "random effects mixed model with repeated measures"
+tags = {jobtype = "io, memory"}
+jobfile = ["assets/workloads/mixed-analytics/data/focus.dat"]
+profile = "default"
+stage = "single"
+sasoption = ["-encoding us-ascii"]
+
+[job.107_synthforest]
+sourcecode = "assets/workloads/mixed-analytics/code/synthforest.sas"
+description = "HPCLUS and HPFOREST on Synthetic Data"
+tags = {jobtype = "io, memory"}
+profile = "default"
+stage = "single"
+sasoption = ["-encoding us-ascii"]
+
+
+
+
+
+### Scaling Stage: Multiple Copies of Jobs
+
+# comp_test1
+# Input Data: none
+# Note: Long running job (default: disabled)
+[job.201a_surveylogistic]
+sourcecode = "assets/workloads/mixed-analytics/code/surveylogistic.sas"
+description = "Long running job (Input Data: none)"
+profile = "highmem"
+stage = "scaling"
+disable = true 
+
+# comp_test5
+# Input Data: none
+[job.202a_comp_test5]
+sourcecode =  "assets/workloads/mixed-analytics/code/comp_test5.sas"
+description = "Numercially intensive test using GLM (General Linear Model)"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "scaling"
+disable = false
+
+[job.202b_comp_test5]
+sourcecode =  "assets/workloads/mixed-analytics/code/comp_test5.sas"
+description = "Numercially intensive test using GLM (General Linear Model)"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "scaling"
+disable = false
+
+[job.202c_comp_test5]
+sourcecode =  "assets/workloads/mixed-analytics/code/comp_test5.sas"
+description = "Numercially intensive test using GLM (General Linear Model)"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "scaling"
+disable = false
+
+[job.202d_comp_test5]
+sourcecode =  "assets/workloads/mixed-analytics/code/comp_test5.sas"
+description = "Numercially intensive test using GLM (General Linear Model)"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "scaling"
+disable = false
+
+[job.202e_comp_test5]
+sourcecode =  "assets/workloads/mixed-analytics/code/comp_test5.sas"
+description = "Numercially intensive test using GLM (General Linear Model)"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "scaling"
+disable = false
+
+[job.202f_comp_test5]
+sourcecode =  "assets/workloads/mixed-analytics/code/comp_test5.sas"
+description = "Numercially intensive test using GLM (General Linear Model)"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "scaling"
+disable = false
+
+
+# glimmix
+# Input Data: none
+[job.203a_glimmix]
+sourcecode =  "assets/workloads/mixed-analytics/code/glimmix.sas"
+description = "STAT Performance Litmus Test for PROC GLIMMIX"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "scaling"
+disable = false
+
+[job.203b_glimmix]
+sourcecode =  "assets/workloads/mixed-analytics/code/glimmix.sas"
+description = "STAT Performance Litmus Test for PROC GLIMMIX"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "scaling"
+disable = false
+
+[job.203c_glimmix]
+sourcecode =  "assets/workloads/mixed-analytics/code/glimmix.sas"
+description = "STAT Performance Litmus Test for PROC GLIMMIX"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "scaling"
+disable = false
+
+[job.203d_glimmix]
+sourcecode =  "assets/workloads/mixed-analytics/code/glimmix.sas"
+description = "STAT Performance Litmus Test for PROC GLIMMIX"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "scaling"
+disable = false
+
+[job.203e_glimmix]
+sourcecode =  "assets/workloads/mixed-analytics/code/glimmix.sas"
+description = "STAT Performance Litmus Test for PROC GLIMMIX"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "scaling"
+disable = false
+
+[job.203f_glimmix]
+sourcecode =  "assets/workloads/mixed-analytics/code/glimmix.sas"
+description = "STAT Performance Litmus Test for PROC GLIMMIX"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "scaling"
+disable = false
+
+
+
+# hpmixed
+# Input Data: none
+[job.204a_hpmixed]
+sourcecode =  "assets/workloads/mixed-analytics/code/hpmixed.sas"
+description = "STAT Performance test for PROC HPMIXED"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "scaling"
+disable = false
+
+[job.204b_hpmixed]
+sourcecode =  "assets/workloads/mixed-analytics/code/hpmixed.sas"
+description = "STAT Performance test for PROC HPMIXED"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "scaling"
+disable = false
+
+[job.204c_hpmixed]
+sourcecode =  "assets/workloads/mixed-analytics/code/hpmixed.sas"
+description = "STAT Performance test for PROC HPMIXED"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "scaling"
+disable = false
+
+[job.204d_hpmixed]
+sourcecode =  "assets/workloads/mixed-analytics/code/hpmixed.sas"
+description = "STAT Performance test for PROC HPMIXED"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "scaling"
+disable = false
+
+[job.204e_hpmixed]
+sourcecode =  "assets/workloads/mixed-analytics/code/hpmixed.sas"
+description = "STAT Performance test for PROC HPMIXED"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "scaling"
+disable = false
+
+[job.204f_hpmixed]
+sourcecode =  "assets/workloads/mixed-analytics/code/hpmixed.sas"
+description = "STAT Performance test for PROC HPMIXED"
+tags = {jobtype = "cpu"}
+profile = "default"
+stage = "scaling"
+disable = false
+
+
+
+[job.205a_ranrw]
+sourcecode = "assets/workloads/mixed-analytics/code/ranrw.sas"
+description = "Data set performance test: random read (skinny,medium, wide) on Data."
+tags = {jobtype = "io"}
+profile = "default"
+stage = "scaling"
+sasoption = ["-encoding us-ascii", "-set nobs 1000000"]
+disable = false
+
+[job.205b_ranrw]
+sourcecode = "assets/workloads/mixed-analytics/code/ranrw.sas"
+description = "Data set performance test: random read (skinny,medium, wide) on Data."
+tags = {jobtype = "io"}
+profile = "default"
+stage = "scaling"
+sasoption = ["-encoding us-ascii", "-set nobs 1000000"]
+disable = false
+
+[job.205c_ranrw]
+sourcecode = "assets/workloads/mixed-analytics/code/ranrw.sas"
+description = "Data set performance test: random read (skinny,medium, wide) on Data."
+tags = {jobtype = "io"}
+profile = "default"
+stage = "scaling"
+sasoption = ["-encoding us-ascii", "-set nobs 1000000"]
+disable = false
+
+[job.205d_ranrw]
+sourcecode = "assets/workloads/mixed-analytics/code/ranrw.sas"
+description = "Data set performance test: random read (skinny,medium, wide) on Data."
+tags = {jobtype = "io"}
+profile = "default"
+stage = "scaling"
+sasoption = ["-encoding us-ascii", "-set nobs 1000000"]
+disable = false
+
+[job.205e_ranrw]
+sourcecode = "assets/workloads/mixed-analytics/code/ranrw.sas"
+description = "Data set performance test: random read (skinny,medium, wide) on Data."
+tags = {jobtype = "io"}
+profile = "default"
+stage = "scaling"
+sasoption = ["-encoding us-ascii", "-set nobs 1000000"]
+disable = false
+
+[job.205f_ranrw]
+sourcecode = "assets/workloads/mixed-analytics/code/ranrw.sas"
+description = "Data set performance test: random read (skinny,medium, wide) on Data."
+tags = {jobtype = "io"}
+profile = "default"
+stage = "scaling"
+sasoption = ["-encoding us-ascii", "-set nobs 1000000"]
+disable = false
+
+
+[job.206a_focus2]
+sourcecode = "assets/workloads/mixed-analytics/code/focus2.sas"
+description = "random effects mixed model with repeated measures"
+tags = {jobtype = "io, memory"}
+jobfile = ["assets/workloads/mixed-analytics/data/focus.dat"]
+profile = "default"
+stage = "scaling"
+sasoption = ["-encoding us-ascii"]
+disable = false
+
+
+[job.206b_focus2]
+sourcecode = "assets/workloads/mixed-analytics/code/focus2.sas"
+description = "random effects mixed model with repeated measures"
+tags = {jobtype = "io, memory"}
+jobfile = ["assets/workloads/mixed-analytics/data/focus.dat"]
+profile = "default"
+stage = "scaling"
+sasoption = ["-encoding us-ascii"]
+disable = false
+
+
+[job.206c_focus2]
+sourcecode = "assets/workloads/mixed-analytics/code/focus2.sas"
+description = "random effects mixed model with repeated measures"
+tags = {jobtype = "io, memory"}
+jobfile = ["assets/workloads/mixed-analytics/data/focus.dat"]
+profile = "default"
+stage = "scaling"
+sasoption = ["-encoding us-ascii"]
+disable = false
+
+
+[job.206d_focus2]
+sourcecode = "assets/workloads/mixed-analytics/code/focus2.sas"
+description = "random effects mixed model with repeated measures"
+tags = {jobtype = "io, memory"}
+jobfile = ["assets/workloads/mixed-analytics/data/focus.dat"]
+profile = "default"
+stage = "scaling"
+sasoption = ["-encoding us-ascii"]
+disable = false
+
+
+[job.206e_focus2]
+sourcecode = "assets/workloads/mixed-analytics/code/focus2.sas"
+description = "random effects mixed model with repeated measures"
+tags = {jobtype = "io, memory"}
+jobfile = ["assets/workloads/mixed-analytics/data/focus.dat"]
+profile = "default"
+stage = "scaling"
+sasoption = ["-encoding us-ascii"]
+disable = false
+
+
+[job.206f_focus2]
+sourcecode = "assets/workloads/mixed-analytics/code/focus2.sas"
+description = "random effects mixed model with repeated measures"
+tags = {jobtype = "io, memory"}
+jobfile = ["assets/workloads/mixed-analytics/data/focus.dat"]
+profile = "default"
+stage = "scaling"
+sasoption = ["-encoding us-ascii"]
+disable = false
+
+[job.207a_synthforest]
+sourcecode = "assets/workloads/mixed-analytics/code/synthforest.sas"
+description = "HPCLUS and HPFOREST on Synthetic Data"
+tags = {jobtype = "io, memory"}
+profile = "default"
+stage = "scaling"
+sasoption = ["-encoding us-ascii"]
+
+[job.207b_synthforest]
+sourcecode = "assets/workloads/mixed-analytics/code/synthforest.sas"
+description = "HPCLUS and HPFOREST on Synthetic Data"
+tags = {jobtype = "io, memory"}
+profile = "default"
+stage = "scaling"
+sasoption = ["-encoding us-ascii"]
+
+[job.207c_synthforest]
+sourcecode = "assets/workloads/mixed-analytics/code/synthforest.sas"
+description = "HPCLUS and HPFOREST on Synthetic Data"
+tags = {jobtype = "io, memory"}
+profile = "default"
+stage = "scaling"
+sasoption = ["-encoding us-ascii"]
+
+[job.207d_synthforest]
+sourcecode = "assets/workloads/mixed-analytics/code/synthforest.sas"
+description = "HPCLUS and HPFOREST on Synthetic Data"
+tags = {jobtype = "io, memory"}
+profile = "default"
+stage = "scaling"
+sasoption = ["-encoding us-ascii"]
+
+[job.207e_synthforest]
+sourcecode = "assets/workloads/mixed-analytics/code/synthforest.sas"
+description = "HPCLUS and HPFOREST on Synthetic Data"
+tags = {jobtype = "io, memory"}
+profile = "default"
+stage = "scaling"
+sasoption = ["-encoding us-ascii"]
+
+[job.207f_synthforest]
+sourcecode = "assets/workloads/mixed-analytics/code/synthforest.sas"
+description = "HPCLUS and HPFOREST on Synthetic Data"
+tags = {jobtype = "io, memory"}
+profile = "default"
+stage = "scaling"
+sasoption = ["-encoding us-ascii"]
+
+
+
+
+
+
+

@@ -1,0 +1,33 @@
+[general]
+stages = ["main"]
+viyacli_path = "/home/jumpuser/sas-viya"
+
+# Profiles are global settings applied to all the jobs
+# that references them
+[profile]
+[profile.default]
+queue = "default"
+sasoption = ["-encoding us-ascii", "-MEMSIZE 6G", "-BUFSIZE 128K", "-SORTSIZE 4G", "-autoexec !BATCHJOBDIR/autoexec.sas"] 
+jobfile = ["assets/workloads/goldfish/autoexec.sas"]
+
+# Jobs are the unit of work that are submitted to Workload Manager
+# - All jobs are submitted in groups defined by stages
+# - Stages are executed sequentially 
+# - All jobs in a stage can run in parallel assuming no resource constraints
+
+# Stage: setup
+#
+[job]
+[job.01_example_job]
+sourcecode = "assets/workloads/goldfish/ExampleSASProgram.sas"
+description = "This is an example job"
+tags = {jobtype= "io"}
+profile = "default"
+stage = "main"
+
+[job.02_example_job_again]
+sourcecode = "assets/workloads/goldfish/ExampleSASProgram.sas"
+description = "This is an example job"
+tags = {jobtype= "io"}
+profile = "default"
+stage = "main"
